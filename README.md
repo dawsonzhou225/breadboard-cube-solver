@@ -3,7 +3,7 @@
 
 ## Project Goal
 
-I wanted to understand computers and Rubik's cubes at a level deeper than just using them. To quote Richard Feynman, "What I cannot create, I do not understand", so to prove to myself that I truly understand the basics of both, let's build a machine (computer) that can solve a Rubik's cube independently. NOTE: This solution, both hardware and software, is likely not the only solution, nor the most efficient, just one that I thought of.
+I wanted to understand computers and Rubik's cubes at a level deeper than just using them. To quote Richard Feynman, "What I cannot create, I do not understand", so to prove to myself that I truly understand the basics of both, let's build a machine (computer) that can solve a Rubik's cube independently. NOTE: This solution, both hardware and software, is likely not the only solution, nor the most efficient, just one that I thought of. This solution is also not perfect as it does not account for twisted corners or flipped edges, and is also not able to pick another sticker target if the chain is broken.
 
 ## Hardware Overview
 
