@@ -1,0 +1,168 @@
+LDA                                       //Corner solving loop
+48                                        //load current corner sticker
+SUB
+73
+JZ
+22
+LDA
+48          
+OUT                                       //output lookup index
+STA
+2                                         //follow permutation: update LDA target
+STA
+8                                         //follow permutation: update LDA target
+LDA 
+75
+ADD
+76                                        //increment swap counter
+STA
+75
+JMP
+1
+LDA                                       //Parity check: is corner swap count odd?
+75
+ADD
+76
+JC                                        //LSB off = even, skip parity output
+31
+LDI
+200                                       //odd parity marker
+OUT
+LDA                                       //Edge solving loop
+78                                        //load current edge sticker
+SUB
+74
+JZ
+46
+LDA
+78          
+OUT                                       //output lookup index
+STA
+32                                        //follow permutation: update LDA target
+STA
+38                                        //follow permutation: update LDA target
+JMP
+31
+HLT                                            
+
+A <= B                                    //corner permutation table (24 stickers)
+B <= X   
+C <= G   
+D <= M   
+E <= Q   
+F <= C   
+G <= K   
+H <= D   
+I <= J   
+J <= U   
+K <= T   
+L <= P   
+M <= L   
+N <= H   
+O <= A   
+P <= W   
+Q <= S   
+R <= N   
+S <= F   
+T <= E   
+U <= V   
+V <= O   
+W <= R   
+X <= I   
+
+48 ("A" Sticker for corner)                         
+78 ("A" Sticker for edge)                           
+0  (Counter for Parity)
+1 (1 for counter increment)
+
+A <= W                                   //edge permutation table (24 stickers)
+B <= K   
+C <= C   
+D <= A   
+E <= O   
+F <= U   
+G <= B   
+H <= H   
+I <= D   
+J <= J   
+K <= I   
+L <= E   
+M <= R   
+N <= S   
+O <= T   
+P <= F   
+Q <= L   
+R <= Q   
+S <= V   
+T <= P   
+U <= M   
+V <= G   
+W <= N   
+X <= X   
+
+Instruction Set Reference (8-bit Breadboard Computer)
+LDA  — Load register A with the value at RAM address [next byte]
+LDI  — Load register A with the immediate value [next byte]
+STA  — Store register A into RAM address [next byte]
+ADD  — Add the value at RAM address [next byte] to register A
+SUB  — Subtract the value at RAM address [next byte] from register A
+OUT  — Output the current value of register A to the display
+JMP  — Jump to instruction at RAM address [next byte]
+JZ   — Jump to [next byte] if register A is zero
+JC   — Jump to [next byte] if LSB of register A is off/zero
+HLT  — Halt the processor
+
+
+Expected Output: BXIJUVO - parity - WNSVGBKID
+                [49, 71, 56, 57, 68, 69, 62] - [200] - [100, 91, 96, 99, 84, 79, 88, 86, 81]
+
+Solutions Look-up Table
+UBR (B)= R D' (Y-perm) D R'    =>49          FRU (J)= R2 D' (Y-perm) D R2   =>57         BUR (Q)= R' F (Y-perm) F' R    =>64
+UFR (C)= F (Y-perm) F'         =>50          FRD (K)= R F (Y-perm) F' R'    =>58         BDL (S)= D' R (Y-perm) R' D    =>66
+UFL (D)= F R' (Y-perm) R F'    =>51          FLD (L)= D (Y-perm) D'         =>59         BDR (T)= D' (Y-perm) D         =>67
+LFU (F)= F2 (Y-perm) F2        =>53          RUF (M)= R' (Y-perm) R         =>60         DFL (U)= F' (Y-perm) F         =>68
+LFD (G)= D2 R (Y-perm) R' D2   =>54          RUB (N)= R2 (Y-perm) R2        =>61         DFR (V)= F' R' (Y-perm) R F    =>69
+LBD (H)= D2 (Y-perm) D2        =>55          RDB (O)= R (Y-perm) R'         =>62         DBR (W)= R2 F (Y-perm) F' R2   =>70
+FLU (I)= F' D (Y-perm) D' F    =>56          RDF (P)= Y-perm                =>63         DBL (X)= D F' (Y-perm) F D'    =>71
+
+Parity soltuion= y' (R-perm) y =>200
+
+UF (B)= J-perm                      =>79            RB (M)= Dw L (T-perm) L' Dw'        =>90
+UL (C)= T-perm                      =>80            RD (N)= D' Lw' (J-perm) Lw D        =>91
+UB (D) = L-perm                     =>81            RF (O)= Dw' L' (T-perm) L Dw        =>92
+LF (E)= Dw' L (T-perm) L' Dw        =>82            BL (Q)= L (T-perm) L'               =>94
+LD (F)= D Lw' (J-perm) Lw D'        =>83            BD (R)= Lw (L-perm) Lw'             =>95
+LB (G)= Dw L' (T-perm) L Dw'        =>84            BR (S)= Dw2 L' (T-perm) L Dw2       =>96
+LU (H)= L' Dw L' (T-perm) L Dw' L   =>85            BU (T)= Lw (J-perm) Lw'             =>97
+FR (I)= Dw2 L (T-perm) L' Dw2       =>86            DR (U)= D2 L2 (T-perm) L2 D2        =>98
+FD (J)= Lw' (J-perm) Lw             =>87            DB (V)= D L2 (T-perm) L2 D'         =>99
+FL (K)= L' (T-perm) L               =>88            DL (W)= L2 (T-perm) L2              =>100
+FU (L)= Lw' (L-perm) Lw             =>89            DF (X)= D' L2 (T-perm) L2 D         =>101
+
+
+
+Edges Lettering             Corner Lettering
+A =>blue of yellow          A =>blue of white orange
+B =>blue of red             B =>blue of orange yellow
+C =>blue of white           C =>blue of yellow red
+D =>blue of orange          D =>blue of red white
+E =>white of red            E =>white of orange blue
+F =>white of green          F =>white of blue red
+G =>white of orange         G =>white of red green
+H =>white of blue           H =>white of green orange
+I =>red of yellow           I =>red of white blue
+J =>red of green            J =>red of blue yellow
+K =>red of white            K =>red of yellow green
+L =>red of blue             L =>red of green white
+M =>yellow of orange        M =>yellow of red blue
+N =>yellow of green         N =>yellow of blue orange
+O =>yellow of red           O =>yellow of orange green
+P =>yellow of blue          P =>yellow of green red
+Q =>orange of white         Q =>orange of yellow blue
+R =>orange of green         R =>orange of blue white
+S =>orange of yellow        S =>orange of white green
+T =>orange of blue          T =>orange of green yellow
+U =>green of yellow         U =>green of white red
+V =>green of orange         V =>green of red yellow
+W =>green of white          W =>green of yellow orange
+X =>green of red            X =>green of orange white
