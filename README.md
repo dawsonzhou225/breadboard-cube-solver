@@ -1,4 +1,5 @@
 # Breadboard-Cube-Solver
+Please click the photo below to view a short demo
 [![Breadboard Rubik's Cube Solver Demo](https://img.youtube.com/vi/oUuwN_OFeHg/0.jpg)](https://www.youtube.com/watch?v=oUuwN_OFeHg)
 
 ## Project Goal
